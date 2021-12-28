@@ -26,11 +26,15 @@ public class BoardController {
 		model.addAttribute("list", service.getList());
 	}
 
-	@PostMapping("/register")
+	@PostMapping("/register") // 게시글 저장
 	public String register(BoardVO board, RedirectAttributes rttr) {
 		log.info("register :" + board);
 		service.register(board);
 		return "redirect:/board/list";
+	}
+
+	@GetMapping("/register")
+	public void register() {
 	}
 
 	@GetMapping("/get")
@@ -47,12 +51,12 @@ public class BoardController {
 		}
 		return "redirect:/board/list";
 	}
-	
+
 	@PostMapping("/remove")
-	public String remove(@RequestParam("bno")Long bno, RedirectAttributes rttr) {
-		log.info("remove.........:"+bno);
-		if(service.remove(bno)) {
-			rttr.addFlashAttribute("result","success");
+	public String remove(@RequestParam("bno") Long bno, RedirectAttributes rttr) {
+		log.info("remove.........:" + bno);
+		if (service.remove(bno)) {
+			rttr.addFlashAttribute("result", "success");
 		}
 		return "redirect:/board/list";
 	}
