@@ -39,11 +39,31 @@ public class BoardControllerTest {
 	@Test
 	public void testResister() throws Exception {
 		String resultPage = mockMvc
-				.perform(MockMvcRequestBuilders.post("/board/register")
-						.param("title", "test from controller")
-						.param("content", "test from controller")
-						.param("writer", "user0000"))
+				.perform(MockMvcRequestBuilders.post("/board/register").param("title", "test from controller")
+						.param("content", "test from controller").param("writer", "user0000"))
 				.andReturn().getModelAndView().getViewName();
+		log.info(resultPage);
+	}
+
+	@Test
+	public void testGet() throws Exception {
+		log.info(mockMvc.perform(MockMvcRequestBuilders.get("/board/get").param("bno", "12")).andReturn()
+				.getModelAndView().getModelMap());
+	}
+
+	@Test
+	public void testModify() throws Exception {
+		String resultPage = mockMvc
+				.perform(MockMvcRequestBuilders.post("/board/modify").param("bno", "1").param("title", "일번일번")
+						.param("content", "일번 일번").param("writer", "일번 유저"))
+				.andReturn().getModelAndView().getViewName();
+		log.info(resultPage);
+	}
+
+	@Test
+	public void testRemove() throws Exception {
+		String resultPage = mockMvc.perform(MockMvcRequestBuilders.post("/board/remove").param("bno", "6")).andReturn()
+				.getModelAndView().getViewName();
 		log.info(resultPage);
 	}
 }
