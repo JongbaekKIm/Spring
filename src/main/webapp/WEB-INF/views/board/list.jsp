@@ -51,8 +51,10 @@
 			function() {
 				var result = '<c:out value="${result}"/>';
 				checkModal(result);
+				history.replaceState({}, null, null);
+				
 				function checkModal(result) {
-					if (result === '') {
+					if(result ===''||history.state){
 						return;
 					}
 					if (parseInt(result) > 0) {
@@ -63,8 +65,7 @@
 				}
 				
 				$("#regBtn").on("click", function() {
-					console.log("button clicked");
-
+					/* console.log("button clicked"); */
 					self.location = "/board/register";
 				});//버튼 클릭시 등록창으로 이동
 
@@ -106,7 +107,7 @@
 									<c:forEach var="list" items="${list}" varStatus="status">
 										<tr>
 											<td>${status.count}</td>
-											<td><a href="./get?bno=${list.bno}">${list.title}</a></td>
+											<td><a href="./modify?bno=${list.bno}">${list.title}</a></td>
 											<td>${list.writer}</td>
 											<td>${list.regDate}</td>
 											<td>${list.updateDate}</td>
