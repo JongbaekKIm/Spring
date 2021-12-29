@@ -27,12 +27,16 @@ public class BoardController {
 	}
 
 	@PostMapping("/register") // 게시글 저장
+	
+	
 	public String register(BoardVO board, RedirectAttributes rttr) {
 		log.info("register :" + board);
 		service.register(board);
-		return "redirect:/board/list";
+		rttr.addFlashAttribute("result",board.getBno());
+		return "redirect:/board/list"; //redirect를 하지않는 경우, 새로 고침시 도배
 	}
 
+	
 	@GetMapping("/register")
 	public void register() {
 	}
