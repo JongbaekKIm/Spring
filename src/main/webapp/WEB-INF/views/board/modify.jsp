@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 
 <html lang="en">
@@ -58,8 +59,9 @@
 			if (operation === 'remove') {
 				formObj.attr("action", "/board/remove");
 			} else if (operation === "list") {
-				self.location = "/board/list"
-				return;
+				//move to list
+				formObj.attr("action", "/board/list").attr("method", "get");
+				formObj.empty();
 			}
 			formObj.submit();
 		});
@@ -72,7 +74,7 @@
 	<div id="page-wrapper">
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Tables</h1>
+				<h1 class="page-header">게시글 수정 및 삭제</h1>
 			</div>
 
 			<!-- /.col-lg-12 -->
@@ -91,13 +93,12 @@
 											value='<c:out value="${board.bno}"/>' readonly="readonly">
 									</div>
 									<div class="form-group">
-										<label> title</label> <input class="form-control" name="title"
+										<label> Title</label> <input class="form-control" name="title"
 											value='<c:out value="${board.title}"/>'>
 									</div>
 									<div class="form-group">
 										<label>Content</label>
-										<textarea class="form-control" rows="3" name="content">
-												${board.content}</textarea>
+										<textarea class="form-control" rows="3" name="content">${board.content}</textarea>
 									</div>
 									<div class="form-group">
 										<label>Writer</label> <input class="form-control"
@@ -105,20 +106,29 @@
 											readonly="readonly">
 									</div>
 									<div class="form-group">
-										<label>RegDate</label> <input class="form-control"
+										<label>RegDate</label>
+										<%-- <input class="form-control"
 											value='<c:out value="${board.regDate}"/>' name="regdate"
+											readonly="readonly"> --%>
+										<input class="form-control" name="regDate"
+											value='<fmt:formatDate value="${board.regDate}" pattern="yyyy/MM/dd"/>'
 											readonly="readonly">
 									</div>
 									<div class="form-group">
-										<label>UpdateDate</label> <input class="form-control"
+										<label>UpdateDate</label>
+										<%-- <input class="form-control"
 											value='<c:out value="${board.updateDate}"/>'
-											name="updatedate" readonly="readonly">
+											name="updatedate" readonly="readonly"> --%>
+										<input class="form-control" name="updatedate"
+											value='<fmt:formatDate value="${board.updateDate}" pattern="yyyy/MM/dd"/>'
+											readonly="readonly">
 									</div>
 
 									<button data-oper="modify" type="submit" class="btn btn-info">Modify</button>
 									<button data-oper="remove" type="submit" class="btn btn-danger">Remove</button>
 									<button data-oper="list" type="submit" class="btn btn-success">List</button>
 								</table>
+
 							</form>
 						</div>
 						<!-- /.table-responsive -->

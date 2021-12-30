@@ -10,6 +10,9 @@
 		values(#{title}, #{content}, #{writer})
 	</insert>
 	<select id="read" resultType="org.conan.domain.BoardVO">
+		<!-- select bno, title, content, writer, date_format(regDate,'%Y/%m/%d') 
+			as regDate, date_format(updateDate,'%Y/%m/%d') as updateDate from tbl_board 
+			where bno=#{bno} -->
 		select * from tbl_board where
 		bno=#{bno}
 	</select>
@@ -23,9 +26,14 @@
 	</update>
 	<insert id="insertSelectKey">
 		insert into tbl_board(title, content, writer)
-		values(#{title}, #{content}, #{writer})
+		values(#{title},
+		#{content}, #{writer})
 		<selectKey resultType="long" keyProperty="bno" order="AFTER">
-			SELECT LAST_INSERT_ID()
+			SELECT
+			LAST_INSERT_ID()
 		</selectKey>
 	</insert>
+	<select id="getListWithPaging"
+		resultType="org.conan.domain.BoardVO">
+<![CDATA[select * from tbl_board limit #{pageStart}, #{amount}]]></select>
 </mapper>

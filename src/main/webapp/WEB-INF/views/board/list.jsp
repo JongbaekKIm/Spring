@@ -52,9 +52,9 @@
 				var result = '<c:out value="${result}"/>';
 				checkModal(result);
 				history.replaceState({}, null, null);
-				
+
 				function checkModal(result) {
-					if(result ===''||history.state){
+					if (result === '' || history.state) {
 						return;
 					}
 					if (parseInt(result) > 0) {
@@ -63,23 +63,22 @@
 					}
 					$("#myModal").modal("show");
 				}
-				
+
 				$("#regBtn").on("click", function() {
 					/* console.log("button clicked"); */
 					self.location = "/board/register";
 				});//버튼 클릭시 등록창으로 이동
 
 			}); //document ready
-
 </script>
 </head>
 
 <body>
-	<jsp:include page="../includes/header.jsp"></jsp:include>
+	<jsp:include page="../includes/header.jsp" />
 	<div id="page-wrapper">
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Tables</h1>
+				<h1 class="page-header">게시글 목록</h1>
 			</div>
 			<!-- /.col-lg-12 -->
 		</div>
@@ -107,14 +106,28 @@
 									<c:forEach var="list" items="${list}" varStatus="status">
 										<tr>
 											<td>${status.count}</td>
-											<td><a href="./modify?bno=${list.bno}">${list.title}</a></td>
+											<td><a href="./get?bno=${list.bno}">${list.title}</a></td>
 											<td>${list.writer}</td>
 											<td>${list.regDate}</td>
-											<td>${list.updateDate}</td>
+											<td><a href="./modify?bno=${list.bno}">${list.updateDate}</td>
 										</tr>
 									</c:forEach>
 								</tbody>
 							</table>
+							<div class='pull-right'>
+								<ul class="pagination">
+									<c:if test="${pageMaker.prev }">
+										<li class="paginate_botton previous"><a href="list?pageNum=${pageMaker.startPage-1 }">Previous</a></li>
+									</c:if>
+									<c:forEach var="num" begin="${pageMaker.startPage }"
+										end="${pageMaker.endPage }">
+										<li class="paginate_button ${pageMaker.cri.pageNum==num?"active":""}"><a href="list?pageNum=${num }">${num }</a></li>
+									</c:forEach>
+									<c:if test="${pageMaker.next }">
+										<li class="paginate_button next"><a href="list?pageNum=${pageMaker.endPage+1 }">Next</a>
+									</c:if>
+								</ul>
+							</div>
 							<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 								aria-labelledby="myModalLabel" aria-hidden="true">
 								<div class="modal-dialog">
@@ -145,8 +158,9 @@
 				</div>
 			</div>
 		</div>
-		<!-- /#wrapper -->
-		<jsp:include page="../includes/footer.jsp"></jsp:include>
+	</div>
+	<!-- /#wrapper -->
+	<jsp:include page="../includes/footer.jsp"></jsp:include>
 </body>
 
 </html>

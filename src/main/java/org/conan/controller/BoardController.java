@@ -1,6 +1,8 @@
 package org.conan.controller;
 
 import org.conan.domain.BoardVO;
+import org.conan.domain.Criteria;
+import org.conan.domain.PageDTO;
 import org.conan.service.BoardService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,11 +22,10 @@ import lombok.extern.log4j.Log4j;
 public class BoardController {
 	private BoardService service;
 
-	@GetMapping("/list")
-	public void list(Model model) {
-		log.info("list");
-		model.addAttribute("list", service.getList());
-	}
+	/*
+	 * @GetMapping("/list") public void list(Model model) { log.info("list");
+	 * model.addAttribute("list", service.getList()); }
+	 */
 
 	@PostMapping("/register") // 게시글 저장
 	
@@ -63,6 +64,13 @@ public class BoardController {
 			rttr.addFlashAttribute("result", "success");
 		}
 		return "redirect:/board/list";
+	}
+	
+	@GetMapping("/list")
+	public void list(Criteria cri, Model model) {
+		log.info("list : "+cri);
+		model.addAttribute("list", service.getList(cri));
+		model.addAttribute("pageMaker", new PageDTO(cri, 250));
 	}
 
 }

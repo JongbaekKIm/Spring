@@ -120,6 +120,7 @@
 
 
 		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<!-- 어노테이션을 제공하여 반복 소스스코드를 컴파일 과정에서 생성해주는 방식으로 동작하는 라이브러리 -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

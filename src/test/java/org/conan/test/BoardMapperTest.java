@@ -1,6 +1,9 @@
 package org.conan.test;
 
+import java.util.List;
+
 import org.conan.domain.BoardVO;
+import org.conan.domain.Criteria;
 import org.conan.mapper.BoardMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,14 +57,16 @@ public class BoardMapperTest {
 		int count = mapper.update(board);
 		log.info("UPDATE COUNT : " + count);
 	}
-	
+
 	@Test
 	public void testInsertSelectKey() {
-		BoardVO board  = new BoardVO();
+		BoardVO board = new BoardVO();
 		board.setTitle("새로 작성하는글");
 		board.setContent("새로 작성하는 내용");
 		board.setWriter("newbie");
 		mapper.insertSelectKey(board);
 		log.info(board);
 	}
+
+	
 }
