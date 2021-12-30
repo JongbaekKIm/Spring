@@ -105,62 +105,123 @@
 								<tbody>
 									<c:forEach var="list" items="${list}" varStatus="status">
 										<tr>
-											<td>${status.count}</td>
-											<td><a href="./get?bno=${list.bno}">${list.title}</a></td>
+											<td>${list.bno}</td>
+											<td><a class="move" href='<c:out value="${list.bno}"/>'><c:out
+														value='${list.title}' /> </a></td>
 											<td>${list.writer}</td>
 											<td>${list.regDate}</td>
-											<td><a href="./modify?bno=${list.bno}">${list.updateDate}</td>
+											<td>${list.updateDate}</td>
 										</tr>
 									</c:forEach>
 								</tbody>
 							</table>
-							<div class='pull-right'>
-								<ul class="pagination">
-									<c:if test="${pageMaker.prev }">
-										<li class="paginate_botton previous"><a href="list?pageNum=${pageMaker.startPage-1 }">Previous</a></li>
-									</c:if>
-									<c:forEach var="num" begin="${pageMaker.startPage }"
-										end="${pageMaker.endPage }">
-										<li class="paginate_button ${pageMaker.cri.pageNum==num?"active":""}"><a href="list?pageNum=${num }">${num }</a></li>
-									</c:forEach>
-									<c:if test="${pageMaker.next }">
-										<li class="paginate_button next"><a href="list?pageNum=${pageMaker.endPage+1 }">Next</a>
-									</c:if>
-								</ul>
-							</div>
-							<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-								aria-labelledby="myModalLabel" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal"
-												aria-hidden="true">&times;</button>
-											<h4 class="modal-title" id="myModalLabel">Modal title</h4>
-										</div>
-										<div class="modal-body">처리가 완료되었습니다.</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-default"
-												data-dismiss="modal">Close</button>
-											<button type="button" class="btn btn-primary">Save
-												changes</button>
-										</div>
+							<div class="row">
+								<div class="col-lg-12">
+									<form id="searchForm" action="/board/list" method="get">
+										<select name="type">
+											<option value="">----</option>
+											<option value="T">제목</option>
+											<option value="C">내용</option>
+											<option value="W">작성자</option>
+											<option value="TC">제목 or 내용</option>
+											<option value="TW">제목 or 작성자</option>
+											<option value="TCW">제목 or 내용 or 작성자</option>
+										</select> <input type="text" name="keyword" /> <input type='hidden'
+											name='pageNum' value='${pageMaker.cri.pageNum }'> <input
+											type='hidden' name='amount' value='${pageMaker.cri.amount }'>
+										<button class="btn btn-info">Search</button>
+									</form>
+
+									<div class='pull-right'>
+										<ul class="pagination">
+											<c:if test="${pageMaker.prev }">
+												<li class="paginate_button previous"><a
+													href="${pageMaker.startPage-1 }">Previous</a></li>
+											</c:if>
+											<c:forEach var="num" begin="${pageMaker.startPage }"
+												end="${pageMaker.endPage }">
+												<li class="paginate_button ${pageMaker.cri.pageNum==num?"active":""}"><a
+													href="${num }">${num }</a></li>
+											</c:forEach>
+											<c:if test="${pageMaker.next }">
+												<li class="paginate_button next"><a
+													href="${pageMaker.endPage+1 }">Next</a></li>
+											</c:if>
+										</ul>
 									</div>
-									<!-- /.modal-content -->
+									<form id="actionForm" action="/board/list" method='get'>
+										<input type='hidden' name='pageNum'
+											value='${pageMaker.cri.pageNum }'> <input
+											type='hidden' name='amount' value='${pageMaker.cri.amount }'>
+									</form>
+									<div class="modal fade" id="myModal" tabindex="-1"
+										role="dialog" aria-labelledby="myModalLabel"
+										aria-hidden="true">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal"
+														aria-hidden="true">&times;</button>
+													<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+												</div>
+												<div class="modal-body">처리가 완료되었습니다.</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-default"
+														data-dismiss="modal">Close</button>
+													<button type="button" class="btn btn-primary">Save
+														changes</button>
+												</div>
+											</div>
+											<!-- /.modal-content -->
+										</div>
+										<!-- /.modal-dialog -->
+									</div>
+									<!-- /.modal -->
+									<!-- /.table-responsive -->
 								</div>
-								<!-- /.modal-dialog -->
+								<!-- /.panel-body -->
 							</div>
-							<!-- /.modal -->
-							<!-- /.table-responsive -->
+							<!-- /.panel -->
 						</div>
-						<!-- /.panel-body -->
 					</div>
-					<!-- /.panel -->
 				</div>
 			</div>
-		</div>
-	</div>
-	<!-- /#wrapper -->
-	<jsp:include page="../includes/footer.jsp"></jsp:include>
+			<!-- /#wrapper -->
+			<jsp:include page="../includes/footer.jsp"></jsp:include>
 </body>
+<script>
+	var actionForm = $("#actionForm");
+	$(".paginate_button a").on("click", function(e) {
+		e.preventDefault();
+		console.log("click");
+		actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+		actionForm.submit();
+	});
 
+	$(".move").on(
+			"click",
+			function(e) {
+				e.preventDefault();
+				//console.log("click");
+				actionForm.append("<input type='hidden' name='bno' value='"
+						+ $(this).attr("href") + "'>");
+				actionForm.attr("action", "/board/get");
+				actionForm.submit();
+			});
+	var searchForm = $("#searchForm");
+	$("#searchForm button").on("click", function(e){
+		if(!searchForm.find("option:selected").val()){
+			alert("검색종류를 선택하세요");
+			return false;
+		}
+		if(!searchForm.find("input[name='keyword']").val()){
+			alert("키워드를 입력하세요");
+			return false;
+		}
+		searchForm.find("input[name='pageNum']").val("1");
+		e.preventDefault();
+		searchForm.submit();
+	});
+	
+</script>
 </html>

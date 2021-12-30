@@ -67,6 +67,14 @@ public class BoardMapperTest {
 		mapper.insertSelectKey(board);
 		log.info(board);
 	}
-
+	
+	@Test
+	public void testSearch() {
+		Criteria cri = new Criteria();
+		cri.setKeyword("I");
+		cri.setType("W");
+		List<BoardVO> list = mapper.getListWithPaging(cri);
+		list.forEach(board ->log.info(board));
+	}
 	
 }

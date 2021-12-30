@@ -49,24 +49,7 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-<script type="text/javascript">
-	$(document).ready(function() {
-		var formObj = $("form");
-		$('button').on("click", function(e) {
-			e.preventDefault();
-			var operation = $(this).data("oper");
-			console.log(operation);
-			if (operation === 'remove') {
-				formObj.attr("action", "/board/remove");
-			} else if (operation === "list") {
-				//move to list
-				formObj.attr("action", "/board/list").attr("method", "get");
-				formObj.empty();
-			}
-			formObj.submit();
-		});
-	});
-</script>
+
 </head>
 
 <body>
@@ -87,6 +70,10 @@
 					<div class="panel-body">
 						<div class="table-responsive">
 							<form role="form" action="/board/modify" method="post">
+								<input type="hidden" name="pageNum"
+									value='<c:out value="${cri.pageNum}"/>'> <input
+									type="hidden" name="amount"
+									value='<c:out value="${cri.amount}"/>'>
 								<table class="table table-striped table-bordered table-hover">
 									<div class="form-group">
 										<label> Bno</label> <input class="form-control" name="bno"
@@ -142,5 +129,26 @@
 	<!-- /#wrapper -->
 	<jsp:include page="../includes/footer.jsp"></jsp:include>
 </body>
-
+<script type="text/javascript">
+	$(document).ready(function() {
+		var formObj = $("form");
+		$('button').on("click", function(e) {
+			e.preventDefault();
+			var operation = $(this).data("oper");
+			console.log(operation);
+			if (operation === 'remove') {
+				formObj.attr("action", "/board/remove");
+			} else if (operation === "list") {
+				//move to list
+				formObj.attr("action", "/board/list").attr("method", "get");
+				var pageNumTag = $("input[name='pageNum']").clone();
+				var amountTag = $("input[name='amount']").clone();
+				formObj.empty();
+				formObj.append(pageNumTag);
+				formObj.append(amountTag);
+			}
+			formObj.submit();
+		});
+	});
+</script>
 </html>

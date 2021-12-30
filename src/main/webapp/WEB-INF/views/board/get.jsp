@@ -46,19 +46,7 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-<script type="text/javascript">
-	$(document).ready(function() {
-		var operForm = $("operForm");
-		$('button[data-oper="modify"]').on("click", function(e) {
-			operForm.attr("action", "/board/modify").submit();
-		});
-		$('button[data-oper="list"]').on("click", function(e) {
-			operForm.find("#bno").remove();
-			operForm.attr("action", "/board/list");
-			operForm.submit();
-		});
-	});
-</script>
+
 </head>
 
 <body>
@@ -104,6 +92,10 @@
 								<form id="operForm" action="/board/modify" method="get">
 									<input type="hidden" id="bno" name="bno"
 										value='<c:out value="${board.bno}"/>'>
+									<input type="hidden" name="pageNum"
+										value='<c:out value="${cri.pageNum}"/>'>
+									<input type="hidden" name="amount"
+										value='<c:out value="${cri.amount}"/>'>
 								</form>
 							</table>
 						</div>
@@ -118,5 +110,17 @@
 	<!-- /#wrapper -->
 	<jsp:include page="../includes/footer.jsp"></jsp:include>
 </body>
-
+<script type="text/javascript">
+	$(document).ready(function() {
+		var operForm = $("#operForm");
+		$('button[data-oper="modify"]').on("click", function(e) {
+			operForm.attr("action", "/board/modify").submit();
+		});
+		$('button[data-oper="list"]').on("click", function(e) {
+			operForm.find("#bno").remove();
+			operForm.attr("action", "/board/list");
+			operForm.submit();
+		});
+	});
+</script>
 </html>
