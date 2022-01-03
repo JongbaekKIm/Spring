@@ -16,8 +16,7 @@
 	</delete>
 
 	<update id="update">
-		update tbl_reply set reply=#{reply},
-		replyer=#{replyer}, updateDate=now()
+		update tbl_reply set reply=#{reply}, updateDate=now()
 		where rno=#{rno}
 	</update>
 
