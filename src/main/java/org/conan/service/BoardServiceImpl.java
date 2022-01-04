@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.conan.domain.BoardVO;
 import org.conan.domain.Criteria;
+import org.conan.domain.ReplyPageDTO;
 import org.conan.mapper.BoardMapper;
 import org.springframework.stereotype.Service;
 
@@ -50,16 +51,16 @@ public class BoardServiceImpl implements BoardService {
 		log.info("getList....................?");
 		return mapper.getList();
 	}
-	
+
 	@Override
 	public List<BoardVO> getList(Criteria cri) {
-		log.info("getList with criteria : "+cri);
+		log.info("getList with criteria : " + cri);
 		return mapper.getListWithPaging(cri);
 	}
 
 	@Override
 	public List<BoardVO> getListWithPaging(Criteria cri) {
-		log.info("getList with criteria : "+cri);
+		log.info("getList with criteria : " + cri);
 		return mapper.getListWithPaging(cri);
 	}
 
@@ -68,7 +69,7 @@ public class BoardServiceImpl implements BoardService {
 		log.info("get total count");
 		return mapper.getTotalCount(cri);
 	}
+
 	
-	
-	
+
 }
