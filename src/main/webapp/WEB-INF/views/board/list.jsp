@@ -83,7 +83,7 @@
 			<!-- /.col-lg-12 -->
 		</div>
 		<div class="row">
-			<div class="col-lg-6">
+			<div >
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						게시글 목록
@@ -107,7 +107,7 @@
 										<tr>
 											<td>${list.bno}</td>
 											<td><a class="move" href='<c:out value="${list.bno}"/>'><c:out
-														value='${list.title}' /> </a></td>
+														value='${list.title}   [${list.replyCnt }]' /> </a></td>
 											<td>${list.writer}</td>
 											<td>${list.regDate}</td>
 											<td>${list.updateDate}</td>

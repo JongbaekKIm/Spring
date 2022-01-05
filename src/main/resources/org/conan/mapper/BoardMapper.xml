@@ -53,6 +53,10 @@
 		<include refid="criteria" />
 	</select>
 
+	<update id="updateReplyCnt">
+		update tbl_board set replycnt = replycnt+#{amount} where bno = #{bno}
+	</update>
+
 	<sql id="criteria">
 		<trim prefix="WHERE" prefixOverrides="OR">
 			<foreach item="type" collection="typeArr">

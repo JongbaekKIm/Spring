@@ -250,6 +250,7 @@
             var modalModBtn = $("#modalModBtn");
             var modalRemoveBtn = $("#modalRemoveBtn");
             var modalRegisterBtn = $("#modalRegisterBtn");
+            var modalCloseBtn = $("#modalCloseBtn");
                              
             $("#addReplyBtn").on("click", function (e){
                modal.find("input").val("");
@@ -303,6 +304,11 @@
                                    showList(pageNum);
                                 });
                              });
+                             
+                             modalCloseBtn.on("click", function(e){
+                                    modal.modal("hide");
+                              });
+                             
                              modalRemoveBtn.on("click", function(e){
                                 var rno = modal.data("rno");
                                 replyService.remove(rno, function(result){
@@ -340,17 +346,16 @@
             console.log(str);
             replyPageFooter.html(str);
          }//showReplyPage
+         replyPageFooter.on("click", "li a", function(e){
+             e.preventDefault();
+             console.log("page click");
+             var targetPageNum = $(this).attr("href");
+             console.log("targetPageNum : " + targetPageNum);
+             pageNum = targetPageNum;
+             showList(pageNum);   //댓글 수정과 삭제시에도 댓글이 포함된 페이지로 이동하도록 수정
+          })
        //댓글 페이지 이동 시 댓글 출력
        });
-   replyPageFooter.on("click", "li a", function(e){
-       e.preventDefault();
-       console.log("page click");
-       var targetPageNum = $(this).attr("href");
-       console.log("targetPageNum : " + targetPageNum);
-       pageNum = targetPageNum;
-       showList(pageNum);   //댓글 수정과 삭제시에도 댓글이 포함된 페이지로 이동하도록 수정
-    })
-      
 </script>
 <%@include file="../includes/footer.jsp"%>
 
