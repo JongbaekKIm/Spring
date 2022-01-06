@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,46 +6,53 @@
 <title>Insert title here</title>
 <script src="/resources/vendor/jquery/jquery.min.js"></script>
 <style>
-.uploadResult{
-width : 100%;
-background-color : #ddd;
+.uploadResult {
+	width: 100%;
+	background-color: #ddd;
 }
-.uploadResult ul{
-display : flex;
-flex-flow : row;
-justify-content : center;
-align-items : center;
+
+.uploadResult ul {
+	display: flex;
+	flex-flow: row;
+	justify-content: center;
+	align-items: center;
 }
-.uploadResult ul li{
-list-style : none;
-padding : 10px;
+
+.uploadResult ul li {
+	list-style: none;
+	padding: 10px;
 }
-.uploadResult ul li img{
-width : 20px;
+
+.uploadResult ul li img {
+	width: 20px;
 }
-.uploadResult ul li span{
-color:white;
+
+.uploadResult ul li span {
+	color: white;
 }
-.bigPictureWrapper{
-position:absolute;
-display : none;
-justify-conent:center;
-align-items:center;
-top:0%;
-width : 100%;
-height : 100%;
-background-color : gray;
-z-index:100;
-background:rgba(255, 255, 255, 0.5);
+
+.bigPictureWrapper {
+	position: absolute;
+	display: none;
+	justify-conent: center;
+	align-items: center;
+	top: 0%;
+	width: 100%;
+	height: 100%;
+	background-color: gray;
+	z-index: 100;
+	background: rgba(255, 255, 255, 0.5);
 }
-.bigPicture{
-position : relative;
-display : flex;
-justify-content : center;
-align-items : center;
+
+.bigPicture {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
-.bigPicture img{
-width:400px;
+
+.bigPicture img {
+	width: 400px;
 }
 </style>
 </head>
@@ -58,8 +64,9 @@ width:400px;
 	<div class="uploadResult">
 		<ul></ul>
 	</div>
-	<div class = "bigPictureWrapper">
-	<div class="bigPicture"></div></div>
+	<div class="bigPictureWrapper">
+		<div class="bigPicture"></div>
+	</div>
 	<button id="uploadBtn">Upload</button>
 </body>
 
@@ -86,14 +93,14 @@ width:400px;
 			$(uploadResultArr).each(function(i, obj) {
 				if(!obj.image){
 					var fileCallPath = encodeURIComponent(obj.uploadPath+"/"+obj.uuid+"_"+obj.fileName);
-				str += "<li><a href='/download?fileName="+fileCallPath+"'><img src='resources/images/attach.png'>" 
-				+ obj.fileName + "</a></li>";
+				str += "<li><div><a href='/download?fileName="+fileCallPath+"'><img src='resources/images/attach.png'>" 
+				+ obj.fileName + "</a><span data-file =\'"+fileCallPath+"\'data-type='file'>x</span></div></li>";
 				}else{
 				/* 	str+="<li>"+obj.fileName+"</li>"; */
 				var fileCallPath = encodeURIComponent(obj.uploadPath+"/s_"+obj.uuid+"_"+obj.fileName);
 				var originPath = obj.uploadPath +"/"+ obj.uuid+"_"+obj.fileName;
 				originPath = originPath.replace(new RegExp(/\\/g),"/");
-				str+="<li><a href=\"javascript:showImage(\'"+originPath+"\')\"><img src='/display?fileName="+fileCallPath+"'></a></li>";
+				str+="<li><a href=\"javascript:showImage(\'"+originPath+"\')\"><img src='/display?fileName="+fileCallPath+"'></a><span data-file =\'"+fileCallPath+"\'data-type='image'>x</span></li>";
 				}
 			});
 			uploadResult.append(str);
@@ -129,7 +136,20 @@ width:400px;
 			});//$a.jax 종료
 
 		});
-
+		$(".uploadResult").on("click", "span", function(e){
+			var targetFile = $(this).data("file");
+			var type = $(this).data("type");
+			console.log(targetFile);
+			$.ajax({
+				url:'/deleteFile',
+				data : {fileName : targetFile, type:type},
+				dataType : 'text',
+				type : 'post',
+				success:function(result){
+					alert(result);
+				}
+			});//$.ajax
+		});
 	
 		
 	});
@@ -144,5 +164,6 @@ width:400px;
 				}, 1000);
 			})//bigPictureWrapper click
 		}//<a>태그에서 직접 showImage()호출 할 수있도록 document ready 외부에 선언
+		
 </script>
 </html>
