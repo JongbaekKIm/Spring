@@ -32,6 +32,7 @@ import lombok.extern.log4j.Log4j;
 @AllArgsConstructor
 public class BoardController {
 	private BoardService service;
+
 	private void deleteFiles(List<BoardAttachVO> attachList) {
 		if (attachList == null || attachList.size() == 0) {
 			return;
