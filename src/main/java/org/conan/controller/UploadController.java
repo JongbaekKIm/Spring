@@ -192,4 +192,6 @@ public class UploadController {
 		}
 		return new ResponseEntity<String>("deleted", HttpStatus.OK);
 	}
+	
+
 }

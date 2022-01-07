@@ -2,9 +2,9 @@ package org.conan.service;
 
 import java.util.List;
 
+import org.conan.domain.BoardAttachVO;
 import org.conan.domain.BoardVO;
 import org.conan.domain.Criteria;
-import org.conan.domain.ReplyPageDTO;
 
 public interface BoardService {
 	public void register(BoardVO board);
@@ -22,5 +22,6 @@ public interface BoardService {
 	public List<BoardVO> getListWithPaging(Criteria cri);
 
 	public int getTotal(Criteria cri);
-
+	
+	public List<BoardAttachVO> getAttachList(Long bno);
 }
